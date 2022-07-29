@@ -20,6 +20,9 @@ TILE_SIZE = 16
 -- entity constants
 --
 PLAYER_WALK_SPEED = 60
+PLAYER_MAX_HEALTH = 6
+PLAYER_HEAL_AMOUNT = 2
+
 
 --
 -- map constants
@@ -29,6 +32,12 @@ MAP_HEIGHT = math.floor(VIRTUAL_HEIGHT / TILE_SIZE) - 2
 
 MAP_RENDER_OFFSET_X = (VIRTUAL_WIDTH - (MAP_WIDTH * TILE_SIZE)) / 2
 MAP_RENDER_OFFSET_Y = (VIRTUAL_HEIGHT - (MAP_HEIGHT * TILE_SIZE)) / 2
+
+
+--
+-- game object data
+--
+HEART_DROP_CHANCE = 0.33 -- in decimal
 
 --
 -- tile IDs
