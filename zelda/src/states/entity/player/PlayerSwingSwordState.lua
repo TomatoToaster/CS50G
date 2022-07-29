@@ -82,7 +82,7 @@ function PlayerSwingSwordState:update(dt)
 end
 
 function PlayerSwingSwordState:render()
-    self.entity.currentAnimation:render(self.entity.x, self.entity.y, self.entity.offsetX, self.entity.offsetY)
+    self.player.currentAnimation:render(self.player.x, self.player.y, self.player.offsetX, self.player.offsetY)
 
     --
     -- debug for player and hurtbox collision rects VV
