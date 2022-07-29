@@ -267,6 +267,11 @@ function Room:render()
 
     love.graphics.setStencilTest()
 
+    --render the player's held item on top of the player (could try to stencil but this is simpler)
+    if (self.player.heldItem) then
+        self.player.heldItem:render(self.adjacentOffsetX, self.adjacentOffsetY)
+    end
+
     --
     -- DEBUG DRAWING OF STENCIL RECTANGLES
     --

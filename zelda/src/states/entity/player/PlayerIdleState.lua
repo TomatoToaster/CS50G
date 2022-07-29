@@ -8,6 +8,11 @@
 
 PlayerIdleState = Class{__includes = EntityIdleState}
 
+function PlayerIdleState:init(entity)
+    EntityIdleState.init(self, entity)
+    self.entity:changeAnimation((self.entity.heldItem and 'hold-' or '') .. 'idle-' .. self.entity.direction)
+end
+
 function PlayerIdleState:enter(params)
 
     -- render offset for spaced character sprite (negated in render function of state)
@@ -21,11 +26,13 @@ function PlayerIdleState:update(dt)
         self.entity:changeState('walk')
     end
 
-    if love.keyboard.wasPressed('space') then
-        self.entity:changeState('swing-sword')
-    end
+    if not self.entity.heldItem then
+        if love.keyboard.wasPressed('space') then
+            self.entity:changeState('swing-sword')
+        end
 
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        self.entity:changeState('lift')
+        if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+            self.entity:changeState('lift')
+        end
     end
 end

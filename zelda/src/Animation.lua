@@ -18,6 +18,7 @@ function Animation:init(def)
 
     self.timer = 0
     self.currentFrame = 1
+    self.lastFrameIndex = #self.frames
 
     -- used to see if we've seen a whole loop of the animation
     self.timesPlayed = 0
@@ -45,7 +46,7 @@ function Animation:update(dt)
             self.currentFrame = math.max(1, (self.currentFrame + 1) % (#self.frames + 1))
 
             -- if we've looped back to the beginning, record
-            if self.currentFrame == 1 then
+            if self.currentFrame == self.lastFrameIndex then
                 self.timesPlayed = self.timesPlayed + 1
             end
         end
