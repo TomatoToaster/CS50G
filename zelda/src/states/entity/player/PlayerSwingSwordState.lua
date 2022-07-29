@@ -60,7 +60,7 @@ function PlayerSwingSwordState:enter(params)
 end
 
 function PlayerSwingSwordState:update(dt)
-    
+
     -- check if hitbox collides with any entities in the scene
     for k, entity in pairs(self.dungeon.currentRoom.entities) do
         if entity:collides(self.swordHitbox) then
@@ -82,9 +82,7 @@ function PlayerSwingSwordState:update(dt)
 end
 
 function PlayerSwingSwordState:render()
-    local anim = self.player.currentAnimation
-    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.player.x - self.player.offsetX), math.floor(self.player.y - self.player.offsetY))
+    self.entity.currentAnimation:render(self.entity.x, self.entity.y, self.entity.offsetX, self.entity.offsetY)
 
     --
     -- debug for player and hurtbox collision rects VV

@@ -55,3 +55,8 @@ end
 function Animation:getCurrentFrame()
     return self.frames[self.currentFrame]
 end
+
+function Animation:render(x, y, offsetX, offsetY)
+    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self:getCurrentFrame()],
+        math.floor(x - offsetX), math.floor(y - offsetY))
+end
