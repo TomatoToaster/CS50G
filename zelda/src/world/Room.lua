@@ -15,6 +15,9 @@ function Room:init(player)
     self.tiles = {}
     self:generateWallsAndFloors()
 
+    -- reference to player for collisions, etc.
+    self.player = player
+
     -- entities in the room
     self.entities = {}
     self:generateEntities()
@@ -29,9 +32,6 @@ function Room:init(player)
     table.insert(self.doorways, Doorway('bottom', false, self))
     table.insert(self.doorways, Doorway('left', false, self))
     table.insert(self.doorways, Doorway('right', false, self))
-
-    -- reference to player for collisions, etc.
-    self.player = player
 
     -- used for centering the dungeon rendering
     self.renderOffsetX = MAP_RENDER_OFFSET_X
@@ -114,6 +114,15 @@ function Room:generateObjects()
             math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
                         VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
         )
+
+        -- find a new random spot for the pot if it collides with the player so we don't start inside a pot
+        while self.player:collides(pot) do
+            pot.x, pot.y =
+            math.random(MAP_RENDER_OFFSET_X + TILE_SIZE,
+                        VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
+            math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
+                        VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
+        end
         table.insert(self.objects, pot)
     end
 end
