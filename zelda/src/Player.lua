@@ -18,7 +18,7 @@ function Player:update(dt)
 end
 
 function Player:collides(target)
-    local selfY, selfHeight = self.y + self.height / 2, self.height - self.height / 2
+    local selfY, selfHeight = self.y + self.offsetY, self.height - self.offsetY
 
     return not (self.x + self.width <= target.x or self.x >= target.x + target.width or
                 selfY + selfHeight <= target.y or selfY >= target.y + target.height)

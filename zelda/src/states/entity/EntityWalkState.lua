@@ -60,6 +60,23 @@ function EntityWalkState:update(dt)
             self.bumped = true
         end
     end
+
+    -- check collision against solid game objects
+    local adjustedHeight =  self.entity.height / 2
+    for k, object in pairs(self.dungeon.currentRoom.objects) do
+        if object.solid and self.entity:collides(object) then
+            if self.entity.direction == 'left' then
+                self.entity.x = object.x + object.width
+            elseif self.entity.direction == 'right' then
+                self.entity.x = object.x - self.entity.width
+            elseif self.entity.direction == 'up' then
+                self.entity.y = object.y + object.height - self.entity.offsetY
+            else
+                self.entity.y = object.y - self.entity.height
+            end
+            self.bumped = true
+        end
+    end
 end
 
 function EntityWalkState:processAI(params, dt)

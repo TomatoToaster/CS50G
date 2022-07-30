@@ -120,22 +120,6 @@ function PlayerWalkState:update(dt)
 
     end
 
-    -- check collision against solid game objects
-    local adjustedPlayerHeight =  self.entity.height / 2
-    for k, object in pairs(self.dungeon.currentRoom.objects) do
-        if object.solid and self.entity:collides(object) then
-            if self.entity.direction == 'left' then
-                self.entity.x = object.x + object.width
-            elseif self.entity.direction == 'right' then
-                self.entity.x = object.x - self.entity.width
-            elseif self.entity.direction == 'up' then
-                self.entity.y = object.y + object.height - adjustedPlayerHeight
-            else
-                self.entity.y = object.y - self.entity.height
-            end
-        end
-    end
-
     if self.entity.heldItem then
         self.entity.heldItem.x, self.entity.heldItem.y = self.entity.x, self.entity.y - self.entity.heldItem.height + PLAYER_HELD_ITEM_Y_OFFSET
     end
