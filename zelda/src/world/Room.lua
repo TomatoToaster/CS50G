@@ -68,7 +68,7 @@ function Room:generateEntities()
         })
 
         self.entities[i].stateMachine = StateMachine {
-            ['walk'] = function() return EntityWalkState(self.entities[i]) end,
+            ['walk'] = function() return EntityWalkState(self.entities[i], {currentRoom = self}) end,
             ['idle'] = function() return EntityIdleState(self.entities[i]) end
         }
 
@@ -165,10 +165,7 @@ function Room:update(dt)
 
     self.player:update(dt)
 
-    for i = #self.entities, 1, -1 do
-        local entity = self.entities[i]
-
-        -- remove entity from the table if health is <= 0
+    for i, entity in pairs(self.entities) do
         if entity.health <= 0 and not entity.dead then
             entity.dead = true
             if math.random() <= HEART_DROP_CHANCE then
@@ -200,6 +197,17 @@ function Room:update(dt)
                 gStateMachine:change('game-over')
             end
         end
+
+        -- collision between the projectile gameobjects and entities in the room
+        if not entity.dead then
+            for k, object in pairs(self.objects) do
+                if object.projectile and not object.destroyed and entity:collides(object)then
+                    object:destroy()
+                    gSounds['hit-enemy']:play()
+                    entity:damage(1)
+                end
+            end
+        end
     end
 
     for k, object in pairs(self.objects) do
@@ -211,6 +219,10 @@ function Room:update(dt)
             if object.consumable then
                 table.remove(self.objects, k)
             end
+        end
+
+        if object.destroyed then
+            table.remove(self.objects, k)
         end
     end
 end

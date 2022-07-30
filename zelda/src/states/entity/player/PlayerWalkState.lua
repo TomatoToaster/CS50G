@@ -41,6 +41,12 @@ function PlayerWalkState:update(dt)
         if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
             self.entity:changeState('lift')
         end
+    else
+        if love.keyboard.wasPressed('space') then
+            if love.keyboard.wasPressed('space') then
+                self.entity.heldItem:fire(self.entity)
+            end
+        end
     end
 
     -- perform base collision detection against walls

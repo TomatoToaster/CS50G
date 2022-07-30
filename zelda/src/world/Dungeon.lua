@@ -107,6 +107,9 @@ function Dungeon:beginShifting(shiftX, shiftY)
         end
 
         gSounds['door']:play()
+
+        -- get rid of anything the player might be holding
+        self.player.heldItem = nil
     end)
 end
 
@@ -127,30 +130,30 @@ function Dungeon:finishShifting()
 
     -- this room (previously the off-screen room) should now be in the center, not offset
     self.currentRoom.adjacentOffsetX = 0
-    self.currentRoom.adjacentOffsetY = 0 
+    self.currentRoom.adjacentOffsetY = 0
 end
 
 function Dungeon:update(dt)
-    
+
     -- pause updating if we're in the middle of shifting
-    if not self.shifting then    
+    if not self.shifting then
         self.currentRoom:update(dt)
     else
-        
+
         -- still update the player animation if we're shifting rooms
         self.player.currentAnimation:update(dt)
     end
 end
 
 function Dungeon:render()
-    
+
     -- translate the camera if we're actively shifting
     if self.shifting then
         love.graphics.translate(-math.floor(self.cameraX), -math.floor(self.cameraY))
     end
 
     self.currentRoom:render()
-    
+
     if self.nextRoom then
         self.nextRoom:render()
     end
