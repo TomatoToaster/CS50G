@@ -27,7 +27,7 @@ function Obstacle:init(world, shape, x, y)
 
     self.world = world
 
-    self.body = love.physics.newBody(self.world, 
+    self.body = love.physics.newBody(self.world,
         self.startX or math.random(VIRTUAL_WIDTH), self.startY or math.random(VIRTUAL_HEIGHT - 35), 'dynamic')
 
     -- assign width and height based on shape to create physics shape
