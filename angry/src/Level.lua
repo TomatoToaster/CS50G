@@ -188,6 +188,17 @@ function Level:update(dt)
         end
     end
 
+    -- Launch the aliens with spacebar (launchBonusAliens() handles logic for blocking the bonus aliens launch when appropriate)
+    if love.keyboard.wasPressed('space') then
+        self.launchMarker:launchBonusAliens()
+    end
+
+    -- allow skipping to next alien if the s key is pressed
+    if love.keyboard.wasPressed('s') then
+        shouldRestart = true
+    end
+
+
     if shouldRestart then
         self.launchMarker.alien.body:destroy()
         if self.launchMarker.bonusAliens then
@@ -202,10 +213,6 @@ function Level:update(dt)
         end
     end
 
-    -- Launch the aliens with spacebar (launchBonusAliens() handles logic for blocking the bonus aliens launch when appropriate)
-    if love.keyboard.wasPressed('space') then
-        self.launchMarker:launchBonusAliens()
-    end
 end
 
 function Level:render()
