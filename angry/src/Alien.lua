@@ -39,7 +39,7 @@ function Alien:isDoneMoving()
     local xVel, yVel = self.body:getLinearVelocity()
 
     -- if we fired our alien to the left or is barely moving it is done moving
-    return xPos < 0 or (math.abs(xVel) + math.abs(yVel) < 1.5)
+    return xPos < 0 or (math.abs(xVel) + math.abs(yVel) < ALIEN_DONE_MOVING_VELOCITY_TOTAL)
 end
 
 function Alien:render()
