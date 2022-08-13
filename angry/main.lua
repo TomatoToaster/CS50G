@@ -41,8 +41,8 @@ function love.load()
     }
     gStateMachine:change('start')
 
-    gSounds['music']:setLooping(true)
-    gSounds['music']:play()
+    -- gSounds['music']:setLooping(true)
+    -- gSounds['music']:play()
 
     love.keyboard.keysPressed = {}
     love.mouse.keysPressed = {}
@@ -68,7 +68,7 @@ function love.mousepressed(x, y, key)
 end
 
 function love.mousereleased(x, y, key)
-    love.mouse.keysReleased[key] = true 
+    love.mouse.keysReleased[key] = true
 end
 
 function love.keyboard.wasPressed(key)

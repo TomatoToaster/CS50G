@@ -176,24 +176,35 @@ function Level:update(dt)
         end
     end
 
-    -- replace launch marker if alien stopped moving
+    -- replace launch marker if all aliens stopped moving
+    local shouldRestart = false
     if self.launchMarker.launched then
-        local xPos, yPos = self.launchMarker.alien.body:getPosition()
-        local xVel, yVel = self.launchMarker.alien.body:getLinearVelocity()
-
-        -- if we fired our alien to the left or it's almost done rolling, respawn
-        if xPos < 0 or (math.abs(xVel) + math.abs(yVel) < 1.5) then
-            self.launchMarker.alien.body:destroy()
-            self.launchMarker = AlienLaunchMarker(self.world)
-
-            -- re-initialize level if we have no more aliens
-            if #self.aliens == 0 then
-                gStateMachine:change('start')
+        if self.launchMarker.alien:isDoneMoving() then
+            if self.launchMarker.bonusAliens then
+                shouldRestart = self.launchMarker.bonusAliens[1]:isDoneMoving() and self.launchMarker.bonusAliens[2]:isDoneMoving()
+            else
+                shouldRestart = true
             end
         end
-        if not self.launchMarker.bonusAliens and love.keyboard.wasPressed('space') then
-            self.launchMarker:launchBonusAliens()
+    end
+
+    if shouldRestart then
+        self.launchMarker.alien.body:destroy()
+        if self.launchMarker.bonusAliens then
+            self.launchMarker.bonusAliens[1].body:destroy()
+            self.launchMarker.bonusAliens[2].body:destroy()
         end
+        self.launchMarker = AlienLaunchMarker(self.world)
+
+        -- re-initialize level if we have no more aliens
+        if #self.aliens == 0 then
+            gStateMachine:change('start')
+        end
+    end
+
+    -- Launch the aliens with spacebar (launchBonusAliens() handles logic for blocking the bonus aliens launch when appropriate)
+    if love.keyboard.wasPressed('space') then
+        self.launchMarker:launchBonusAliens()
     end
 end
 

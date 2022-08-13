@@ -124,7 +124,7 @@ end
 -- encasulates logic to launch aliens above and below the current alien
 function AlienLaunchMarker:launchBonusAliens()
     -- don't do anything if we haven't launched yet or if we are told to block bonus alien launching
-    if not self.alien or self.blockBonusAliens then
+    if not self.launched or self.blockBonusAliens then
         return
     end
     self.bonusAliens = {}

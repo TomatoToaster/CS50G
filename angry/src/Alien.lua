@@ -12,7 +12,7 @@ function Alien:init(world, type, x, y, userData)
     self.world = world
     self.type = type or 'square'
 
-    self.body = love.physics.newBody(self.world, 
+    self.body = love.physics.newBody(self.world,
         x or math.random(VIRTUAL_WIDTH), y or math.random(VIRTUAL_HEIGHT - 35),
         'dynamic')
 
@@ -31,6 +31,15 @@ function Alien:init(world, type, x, y, userData)
 
     -- used to keep track of despawning the Alien and flinging it
     self.launched = false
+end
+
+-- return whether the alien is done moving
+function Alien:isDoneMoving()
+    local xPos, yPos = self.body:getPosition()
+    local xVel, yVel = self.body:getLinearVelocity()
+
+    -- if we fired our alien to the left or is barely moving it is done moving
+    return xPos < 0 or (math.abs(xVel) + math.abs(yVel) < 1.5)
 end
 
 function Alien:render()
