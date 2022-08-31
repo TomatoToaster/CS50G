@@ -10,12 +10,13 @@ BattleMenuState = Class{__includes = BaseState}
 
 function BattleMenuState:init(battleState)
     self.battleState = battleState
-    
+
     self.battleMenu = Menu {
         x = VIRTUAL_WIDTH - 64,
         y = VIRTUAL_HEIGHT - 64,
         width = 64,
         height = 64,
+        isReadOnly = false,
         items = {
             {
                 text = 'Fight',
@@ -28,7 +29,7 @@ function BattleMenuState:init(battleState)
                 text = 'Run',
                 onSelect = function()
                     gSounds['run']:play()
-                    
+
                     -- pop battle menu
                     gStateStack:pop()
 
@@ -40,7 +41,7 @@ function BattleMenuState:init(battleState)
                         gStateStack:push(FadeInState({
                             r = 1, g = 1, b = 1
                         }, 1,
-                        
+
                         -- pop message and battle state and add a fade to blend in the field
                         function()
 
