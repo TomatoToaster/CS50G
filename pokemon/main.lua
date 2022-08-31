@@ -92,3 +92,7 @@ function love.draw()
     gStateStack:render()
     push:finish()
 end
+
+
+-- TEMPORARY (Remove when music is less annoying) - TODO
+love.audio.setVolume(0)
