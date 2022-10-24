@@ -32,6 +32,7 @@ function love.load()
         fullscreen = false,
         vsync = true,
         resizable = true,
+        highdpi = false,
         canvas = false
     })
 
