@@ -30,11 +30,8 @@ function Selection:init(def)
 end
 
 function Selection:update(dt)
-    -- If it's readOnly, don't bother checking the other input cases, we only care about enter key which closes the active state
-    -- TODO
     if self.isReadOnly then
-        if love.keyboard.wasPressed('return') or love.keyboard.wasPressed('enter') then
-        end
+        -- Do nothing in the update, the UI element using this selection can only close and that will be handled elsewhere
     elseif love.keyboard.wasPressed('up') then
         if self.currentSelection == 1 then
             self.currentSelection = #self.items

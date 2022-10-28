@@ -32,6 +32,32 @@ function PlayState:update(dt)
         end))
     end
 
+    if love.keyboard.wasPressed('l') then
+        local testLevelUpStats = {
+            {
+                name = 'HP',
+                base = math.random(1,5),
+                increase = math.random(1,3)
+            },
+            {
+                name = 'Atk',
+                base = math.random(6,10),
+                increase = math.random(1,3)
+            },
+            {
+                name = 'Def',
+                base = math.random(10,15),
+                increase = math.random(1,3)
+            },
+            {
+                name = 'Spd',
+                base = math.random(15,20),
+                increase = math.random(1,3)
+            }
+        }
+        gStateStack:push(LevelUpMenuState(testLevelUpStats))
+    end
+
     self.level:update(dt)
 end
 

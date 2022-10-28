@@ -185,8 +185,10 @@ function TakeTurnState:victory()
         function()
 
             -- sum all IVs and multiply by level to get exp amount
-            local exp = (self.opponentPokemon.HPIV + self.opponentPokemon.attackIV +
-                self.opponentPokemon.defenseIV + self.opponentPokemon.speedIV) * self.opponentPokemon.level
+--  TODO
+            -- local exp = (self.opponentPokemon.HPIV + self.opponentPokemon.attackIV +
+            --     self.opponentPokemon.defenseIV + self.opponentPokemon.speedIV) * self.opponentPokemon.level
+            local exp = 100
 
             gStateStack:push(BattleMessageState('You earned ' .. tostring(exp) .. ' experience points!',
                 function() end, false))
@@ -212,11 +214,38 @@ function TakeTurnState:victory()
 
                         -- set our exp to whatever the overlap is
                         self.playerPokemon.currentExp = self.playerPokemon.currentExp - self.playerPokemon.expToLevel
-                        self.playerPokemon:levelUp()
+                        local stats = {
+                            {
+                                ["name"]='HP',
+                                ["base"] = self.playerPokemon.HP
+                            },
+                            {
+                                ["name"]='Atk',
+                                ["base"] = self.playerPokemon.attack
+                            },
+                            {
+                                ["name"]='Def',
+                                ["base"] = self.playerPokemon.defense
+                            },
+                            {
+                                ["name"]='Spd',
+                                ["base"] = self.playerPokemon.speed
+                            }
+                        }
+                        local statsIncreases = {}
+                        statsIncreases[1], statsIncreases[2], statsIncreases[3], statsIncreases[4] = self.playerPokemon:levelUp()
+                        for i = 1, #statsIncreases do
+                            stats[i]["increase"] = statsIncreases[i]
+                        end
 
                         gStateStack:push(BattleMessageState('Congratulations! Level Up!',
                         function()
-                            self:fadeOutWhite()
+                            gStateStack:push(LevelUpMenuState(
+                                stats,
+                                function()
+                                    self:fadeOutWhite()
+                                end
+                            ))
                         end))
                     else
                         self:fadeOutWhite()
