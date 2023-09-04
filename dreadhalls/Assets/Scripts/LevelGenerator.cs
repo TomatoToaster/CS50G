@@ -21,6 +21,8 @@ public class LevelGenerator : MonoBehaviour {
 
 	public int mazeSize;
 
+	public int numHoles;
+
 	// spawns at the end of the maze generation
 	public GameObject pickup;
 
@@ -39,6 +41,9 @@ public class LevelGenerator : MonoBehaviour {
 		// initialize map 2D array
 		mapData = GenerateMazeData();
 
+		// get the hole data now that map data is created and assigned
+		bool [,] holeData = GenerateHoleData();
+
 		// create actual maze blocks from maze boolean data
 		for (int z = 0; z < mazeSize; z++) {
 			for (int x = 0; x < mazeSize; x++) {
@@ -46,9 +51,10 @@ public class LevelGenerator : MonoBehaviour {
 					CreateChildPrefab(wallPrefab, wallsParent, x, 1, z);
 					CreateChildPrefab(wallPrefab, wallsParent, x, 2, z);
 					CreateChildPrefab(wallPrefab, wallsParent, x, 3, z);
-				} else if (!characterPlaced) {
+				} else if (!characterPlaced && !holeData[z,x]) {
 					
 					// place the character controller on the first empty wall we generate
+					// that also isn't a hole
 					characterController.transform.SetPositionAndRotation(
 						new Vector3(x, 1, z), Quaternion.identity
 					);
@@ -57,9 +63,12 @@ public class LevelGenerator : MonoBehaviour {
 					characterPlaced = true;
 				}
 
-				// create floor and ceiling
-				CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+				// create floor where we don't have holes
+				if (!holeData[z,x]) {
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+				}
 
+				// create ceiling
 				if (generateRoof) {
 					CreateChildPrefab(ceilingPrefab, wallsParent, x, 4, z);
 				}
@@ -115,6 +124,28 @@ public class LevelGenerator : MonoBehaviour {
 		}
 
 		return data;
+	}
+
+	// Generates where there should be holes on the floor based on existing map data
+	// Map data needs to be initialized first
+	bool[,] GenerateHoleData() {
+		bool[,] holeData = new bool[mazeSize, mazeSize];
+		int curNumHoles = 0;
+
+		while (curNumHoles < numHoles) {
+
+			// Keep randomly checking for spots that are not walls and don't
+			// already have a hole to add holes until we reach numHoles
+			int x = Random.Range(1, mazeSize - 2);
+			int y = Random.Range(1, mazeSize - 2);
+
+			if (!mapData[y,x] && !holeData[y,x]) {
+				holeData[y,x] = true;
+				curNumHoles += 1;
+			}
+		}
+
+		return holeData;
 	}
 
 	// allow us to instantiate something and immediately make it the child of this game object's
