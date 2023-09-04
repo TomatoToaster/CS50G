@@ -18,10 +18,7 @@ public class DespawnOnHeight : MonoBehaviour
         if (transform.position.y < despawnHeight) {
             SceneManager.LoadScene("GameOver");
             Destroy(GameObject.FindGameObjectWithTag("Music"));
+            MazeCounter.Reset();
         }
-    }
-
-    private void GameOver() {
-
     }
 }
