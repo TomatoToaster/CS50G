@@ -179,7 +179,7 @@ MonoBehaviour:
   characterController: {fileID: 1286802624}
   floorParent: {fileID: 328187320}
   wallsParent: {fileID: 1229837569}
-  generateRoof: 0
+  generateRoof: 1
   tilesToRemove: 350
   mazeSize: 30
   numHoles: 4
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 748641242}
   m_Layer: 0
   m_Name: WhisperSource
-  m_TagString: Untagged
+  m_TagString: Music
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -471,6 +471,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1695506664}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1286802625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286802624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 115c1015239774880b0e2473340fe612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnHeight: -5
 --- !u!114 &1286802630
 MonoBehaviour:
   m_ObjectHideFlags: 0

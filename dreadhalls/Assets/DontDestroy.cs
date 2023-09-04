@@ -23,4 +23,8 @@ public class DontDestroy : MonoBehaviour {
 	void Start () {
 		
 	}
+
+	public void ForceDestroy() {
+		Destroy(gameObject);
+	}
 }
